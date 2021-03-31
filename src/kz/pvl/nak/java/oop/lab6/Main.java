@@ -1,5 +1,6 @@
 package kz.pvl.nak.java.oop.lab6;
 
+import java.util.Calendar;
 import java.util.Locale;
 import java.io.IOException;
 
@@ -12,10 +13,13 @@ import java.util.regex.Pattern;
 public class Main {
     public static void main(String[] args) throws IOException {
         int gender ; // Пол
-        String yearOfBirth ; // Год рождения
+        int yearOfBirth ; // Год рождения
         int retirementAge; // Пенсионный возраст
         int languageNumber;
-
+        int currentYear;
+        {
+            currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        }
         String myName, country= "" , language = "" ;
         Scanner input = new Scanner(System.in); // Метод ввода
 
@@ -62,7 +66,7 @@ public class Main {
             myName = input.nextLine(); // Ввод имени
 
             System.out.print(languageDefault.getString("yearOfBirth"));
-            yearOfBirth = input.nextLine(); // Ввод года рождения
+            yearOfBirth = input.nextInt(); // Ввод года рождения
 
             System.out.println(languageDefault.getString("gender")); // Нужно выбрать 1 или 2
             System.out.print(languageDefault.getString("select"));
@@ -78,9 +82,18 @@ public class Main {
                 retirementAge = -1;
             }
 
-            Retirement aktan = new Retirement(retirementAge, regExYear(yearOfBirth));
-            int aktanRetirement = aktan.solveRetirement();
-            System.out.println(myName + languageDefault.getString("result") + " " + aktan.postFix(aktanRetirement));
+            if(yearOfBirth >= 1940 && yearOfBirth < currentYear )
+            {
+                Retirement aktan = new Retirement(retirementAge, yearOfBirth);
+                int aktanRetirement = aktan.solveRetirement();
+                System.out.println(myName + languageDefault.getString("result") + " " + aktan.postFix(aktanRetirement));
+            }
+            else
+            {
+                System.out.println("Год рождения введен не верно");
+            }
+
+
 
         }
         catch (Exception e)
@@ -91,7 +104,7 @@ public class Main {
 
     }
 
-    public static int regExYear(String inputYearOfBirth){ // Регулярное выражение
+   /* public static int regExYear(String inputYearOfBirth){ // Регулярное выражение
 
         String pattern =  "(?:(?:19|20)[0-9]{2})";
         int yearOfBirth;
@@ -107,6 +120,8 @@ public class Main {
 
         return yearOfBirth;
     }
+
+    */
 
 
 
